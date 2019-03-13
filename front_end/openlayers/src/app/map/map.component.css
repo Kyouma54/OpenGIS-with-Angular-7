@@ -1,0 +1,64 @@
+.map-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #bdbdbd;
+    border-radius: 2px;
+    position: relative;
+}
+.map-icon{
+    width: 35px;
+    height: 35px;
+    float: left;
+    position: absolute;
+    left: 10px;
+}
+
+.map-icon:hover{
+    transform: translate(-3px, -3px) scale(1.1,1.1);
+    transition: transform 0.3s;
+}
+
+.map-group-icon{
+    background: black;
+}
+
+.layer-icon{
+    background: url(/../assets/img/layers-icon.png) no-repeat, rgba(0,0,0,0.6);
+    background-size: 30px;
+    top: 20px;
+    border: 2px solid rgba(180,180,180,0.6);
+    border-radius: 2px;
+
+}
+
+.draw-icon{
+    background: url(/../assets/img/pencil-icon.png) no-repeat, rgba(0,0,0,0.6);
+    background-size: 24px;
+    top: 61px;
+    border: 2px solid rgba(180,180,180,0.6);
+    border-radius: 2px;
+    background-position-x: 4px;
+    background-position-y: 4px;
+}
+
+.search-icon{
+    background: url(/../assets/img/search-icon.png) no-repeat, rgba(0,0,0,0.6);
+    background-size: 30px;
+    top: 102px;
+    border: 2px solid rgba(180,180,180,0.6);
+    border-radius: 2px;
+}
+
+.location-icon{
+    background: url(/../assets/img/location-icon.png) no-repeat, rgba(0,0,0,0.6);
+    background-size: 30px;
+    top: 143px;
+    border: 2px solid rgba(180,180,180,0.6);
+    border-radius: 2px;
+}
+
+
+
+
+
+

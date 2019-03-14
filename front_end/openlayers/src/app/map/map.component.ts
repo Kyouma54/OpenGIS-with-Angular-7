@@ -12,6 +12,8 @@ import {ScaleLine, FullScreen} from 'ol/control.js';
 import {Draw, Modify, Snap} from 'ol/interaction.js';
 import {Fill, Stroke, Style} from 'ol/style.js';
 import WFS from 'ol/format/WFS';
+import Feature from 'ol/Feature';
+import { MapService } from './map.service';
 
 @Component({
   selector: 'app-map',
@@ -19,8 +21,6 @@ import WFS from 'ol/format/WFS';
   styleUrls: ['./map.component.css']
 })
 export class MapComponent implements OnInit {
-
-  constructor() { }
 
   private map: Map;
   private view: View;
@@ -39,7 +39,9 @@ export class MapComponent implements OnInit {
   private scaleLineControl: ScaleLine = new ScaleLine();
   private fullscrenControl: FullScreen = new FullScreen();
 
-  private drawVectorSource: VectorSource = new VectorSource();
+  private drawVectorSource: VectorSource = new VectorSource({
+    useSpatialIndex: false
+  });
   private drawVectorLayer: VectorLayer;
 
   private draw: Draw;
@@ -57,6 +59,12 @@ export class MapComponent implements OnInit {
       }},
     ]
   };
+
+  //No Providers
+  private geoJSON: GeoJSON = new GeoJSON();
+  //
+
+  constructor(private mapService: MapService) { }
 
   ngOnInit(): void {
     this.layerEstradas = new TileLayer({
@@ -177,7 +185,7 @@ export class MapComponent implements OnInit {
     });
   }
 
-  log(){
+  getLayers(){
     if(!this.map.getLayers().getArray()[4].getVisible()){
       this.layerTI.setVisible(true);
     }else{
@@ -185,13 +193,21 @@ export class MapComponent implements OnInit {
     }
   }
 
+  getFeatures(){
+    return this.geoJSON.writeFeaturesObject(this.drawVectorSource.getFeatures()[0]);
+  }
+
   getDraw(){
     if(this.drawIsActive == false){
       this.draw.on('drawstart', currentDraw => {
         currentDraw.feature.setProperties({
-          'id': ''
-        })
+          'param1': 'abacaxi',
+          'param2': 'laranja'
+        });
       });
+      this.draw.on('drawend', currentDraw => {
+        this.saveDraw(currentDraw.feature);
+      })
       this.map.addInteraction(this.modify);
       this.map.addInteraction(this.draw);
       this.map.addInteraction(this.snap);
@@ -207,8 +223,12 @@ export class MapComponent implements OnInit {
     }
   }
 
-  logs(){
-    console.log(new GeoJSON().writeFeaturesObject(this.drawVectorSource.getFeatures()));
+  saveDraw(feature: Feature){
+    this.mapService.create(feature);
+  }
+
+  log(){
+    console.log(console.log(this.drawVectorSource));
   }
 
   getLocation(){
